@@ -4,12 +4,13 @@
   "description": "iTunes api proxy",
   "main": "app.js",
   "scripts": {
+    "build": "(npm install) && (cd ./client; npm install)",
     "start": "(node ./app.js &) && (cd ./client; npm start)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vishnu/iTunes-app.git"
+    "url": "https://github.com/Vishnubabu/iTunesApp.git"
   },
   "license": "ISC",
   "dependencies": {
