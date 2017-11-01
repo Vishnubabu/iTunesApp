@@ -1,0 +1,21 @@
+{
+  "name": "iTunesApp",
+  "version": "1.0.0",
+  "description": "iTunes api proxy",
+  "main": "app.js",
+  "scripts": {
+    "start": "(node ./app.js &) && (cd ./client; npm start)",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vishnu/iTunes-app.git"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "express-validator": "^4.3.0",
+    "node-cache": "^4.1.1",
+    "request": "^2.83.0"
+  }
+}
