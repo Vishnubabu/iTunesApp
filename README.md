@@ -7,16 +7,16 @@ Setup
 -------------
 
 clone the repository and from root folder run
->npm run-script build
->npm start
+> - npm run-script build
+> - npm start
 
 Requires nodejs 8.8.1 (latest)  -> using (async / await), promisify
 
 Backend
 -------------
 Supports 2 apis
->/api/search
->/api/lookup
+> - /api/search
+> - /api/lookup
 
 These in turn uses the iTunes API
 
