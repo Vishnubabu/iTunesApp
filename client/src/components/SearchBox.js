@@ -33,7 +33,7 @@ const displayNames = {
 };
 
 const mediaEntities = {
-    '': [],
+    '': [''],
     movie: ['', 'movieArtist', 'movie'],
     podcast: ['', 'podcastAuthor', 'podcast'],
     music: ['', 'musicArtist', 'musicTrack', 'album', 'musicVideo', 'mix', 'song'],

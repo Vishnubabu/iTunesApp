@@ -9,7 +9,7 @@ const getTabFromRoute = route => {
     const match = route.match(/^\/(search|lookup)([/?].*)*$/);
 
     return (match && match[1]) || 'search';
-}
+};
 
 export default ({ history }) => (
     <div>

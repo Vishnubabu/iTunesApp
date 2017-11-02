@@ -22,11 +22,7 @@ Supports 2 apis
 
 These in turn uses the iTunes API
 
-There is a caching layer for all iTunes Requests
-https://www.npmjs.com/package/node-cache
-
-There is a caching layer for all iTunes Requests
-Uses [node-cache](https://www.npmjs.com/package/node-cache)
+There is a caching layer for all iTunes Requests, uses [node-cache](https://www.npmjs.com/package/node-cache)
 
 For input request validations using [express-validator](https://github.com/ctavan/express-validator)
 

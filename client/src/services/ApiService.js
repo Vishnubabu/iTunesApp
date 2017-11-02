@@ -1,6 +1,6 @@
 import jquery from 'jquery';
 
-const apiRoute = '/api/';
+const apiRoot = '/api/';
 
 const onResponse = res => {
     if(res.status === 200){
@@ -10,10 +10,6 @@ const onResponse = res => {
     return Promise.reject('ERR: ' + res.status);
 };
 
-export const search = (params) => {
-    return fetch(apiRoute + 'search?' + jquery.param(params)).then(onResponse);
-};
+export const search = (params) => fetch(apiRoot + 'search?' + jquery.param(params)).then(onResponse);
 
-export const lookup = (params) => {
-    return fetch(apiRoute + 'lookup?' + jquery.param(params)).then(onResponse);
-};
+export const lookup = (params) => fetch(apiRoot + 'lookup?' + jquery.param(params)).then(onResponse);

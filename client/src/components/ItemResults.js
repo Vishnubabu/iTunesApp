@@ -15,7 +15,7 @@ const headers = [
     'Collection',
     'Track',
     ''
-]
+];
 
 const ItemResults = ({ itemResults, errorMsg, loading }) => {
     if(loading){
