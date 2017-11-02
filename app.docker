@@ -1,0 +1,57 @@
+FROM ubuntu:16.04
+
+# Use bash instead of sh
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
+RUN apt-get update
+RUN apt-get install -y \
+    autoconf \
+    automake \
+    build-essential \
+    curl \
+    gettext \
+    git \
+    gtk-doc-tools \
+    inkscape \
+    libcairo-dev \
+    libdatetime-locale-perl \
+    libdatetime-perl \
+    libdatetime-timezone-perl \
+    libjpeg-turbo8-dev \
+    libjson-xs-perl \
+    libparse-recdescent-perl \
+    libpcre3-dev \
+    libpq-dev curl \
+    libssl-dev \
+    libtool \
+    libxml-xpath-perl \
+    libxml2-dev \
+    nasm \
+    perl \
+    pkg-config \
+    python-docutils
+
+# Env vars for node/nvm
+ENV NODE_VERSION 8.8.1
+ENV NVM_DIR /root/.nvm
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
+
+# install nvm
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.1/install.sh | bash && \
+    source $NVM_DIR/nvm.sh && \
+    nvm install $NODE_VERSION
+
+EXPOSE 3000
+
+RUN mkdir /root/iTunesApp
+
+COPY ./* /root/iTunesApp
+
+RUN cd /root/iTunesApp
+
+RUN npm run-script build
+
+RUN npm start
+
+CMD bash

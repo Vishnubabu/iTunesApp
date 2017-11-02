@@ -77,7 +77,7 @@ class LookupBox extends React.Component {
                 <input type="text" placeholder="Enter the Id (comma separated)..." value={lookupBox.id} className="form-control form-group"
                     onChange={ e => dispatch(lookupBoxChanged({id: e.target.value})) }/>
 
-                <Button bsStyle="primary" type="submit">Search</Button>
+                <Button bsStyle="primary" type="submit">Lookup</Button>
             </form>
         );
     }
