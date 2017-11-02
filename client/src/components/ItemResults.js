@@ -2,12 +2,11 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-const mapStateToProps = state => {
-    return {
-        itemResults: state.itemResults || [],
-        errorMsg: state.errorMsg
-    };
-}
+const mapStateToProps = state => ({
+    itemResults: state.itemResults || [],
+    errorMsg: state.errorMsg,
+    loading: state.loading
+});
 
 const headers = [
     '',
@@ -18,7 +17,13 @@ const headers = [
     ''
 ]
 
-const ItemResults = ({ itemResults, errorMsg }) => {
+const ItemResults = ({ itemResults, errorMsg, loading }) => {
+    if(loading){
+        return (
+            <div className="loader"></div>
+        );
+    }
+
     if(errorMsg){
         return (
             <div className="alert alert-danger fade in">
@@ -42,8 +47,7 @@ const ItemResults = ({ itemResults, errorMsg }) => {
 
         <tbody>
             {
-            itemResults.map((res, i) => {
-                return (
+                itemResults.map((res, i) => (
                     <tr key={i} >
                         <td key={1}><img alt="" src={ res.artworkUrl60 }/></td>
                         <td key={2}>{ res.kind }</td>
@@ -52,8 +56,7 @@ const ItemResults = ({ itemResults, errorMsg }) => {
                         <td key={5}><a href={ res.trackViewUrl } target="_blank">{ res.trackName }</a></td>
                         <td key={6}><a href={ res.previewUrl } target="_blank">preview</a></td>
                     </tr>
-                );
-            })
+                ))
             }
         </tbody>
         </Table>

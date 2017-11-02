@@ -34,36 +34,39 @@ const displayNames = {
 
 const mediaEntities = {
     '': [],
-    movie: ['movieArtist', 'movie'],
-    podcast: ['podcastAuthor', 'podcast'],
-    music: ['musicArtist', 'musicTrack', 'album', 'musicVideo', 'mix', 'song'],
-    musicVideo: ['musicArtist', 'musicVideo'],
-    audiobook: ['audiobookAuthor', 'audiobook'],
-    shortFilm: ['shortFilmArtist', 'shortFilm'],
-    tvShow: ['tvEpisode', 'tvSeason'],
-    software: ['software', 'iPadSoftware', 'macSoftware'],
-    ebook: ['ebook'],
-    all: ['movie', 'album', 'allArtist', 'podcast', 'musicVideo', 'mix', 'audiobook', 'tvSeason', 'allTrack']
+    movie: ['', 'movieArtist', 'movie'],
+    podcast: ['', 'podcastAuthor', 'podcast'],
+    music: ['', 'musicArtist', 'musicTrack', 'album', 'musicVideo', 'mix', 'song'],
+    musicVideo: ['', 'musicArtist', 'musicVideo'],
+    audiobook: ['', 'audiobookAuthor', 'audiobook'],
+    shortFilm: ['', 'shortFilmArtist', 'shortFilm'],
+    tvShow: ['', 'tvEpisode', 'tvSeason'],
+    software: ['', 'software', 'iPadSoftware', 'macSoftware'],
+    ebook: ['', 'ebook'],
+    all: ['', 'movie', 'album', 'allArtist', 'podcast', 'musicVideo', 'mix', 'audiobook', 'tvSeason', 'allTrack']
 };
 
-const mapStateToProps = state => {
-    return {
-        searchBox: {...{ term: '', media: '', entity: '' }, ...state.searchBox }
-    };
-}
+const mapStateToProps = state => ({
+    searchBox: {...{ term: '', media: '', entity: '' }, ...state.searchBox }
+});
 
 class SearchBox extends React.Component {
 
-    doSearch({term, media, entity}){
+    doSearch({term = '', media = '', entity = ''}){
         const {dispatch} = this.props;
 
-        dispatch(searchBoxChanged({term: (term || ''), media: (media || ''), entity: (entity || '')}));
+        //validating
+        media = media in mediaEntities ? media : '';
+        entity = mediaEntities[media].indexOf(entity) >= 0 ? entity : '';
 
-        if(!term){
+        dispatch(searchBoxChanged({term, media, entity}));
+
+        if(!term.trim()){
             dispatch(removeItemResults());
             return;
         }
 
+        //remove empty media & entity sending to backend
         const params = {term};
         media && (params.media = media);
         entity && (params.entity = entity);
@@ -72,7 +75,7 @@ class SearchBox extends React.Component {
     }
 
     componentWillReceiveProps(props){
-        if(this.props.match.url !== props.match.url){
+        if(this.props.match.url !== props.match.url){  //listen to url change
             this.doSearch(props.match.params);
         }
     }
@@ -91,7 +94,8 @@ class SearchBox extends React.Component {
             return;
         }
 
-        history.push('/search/' + searchBox.term + (searchBox.media ? '/' + searchBox.media : '') + (searchBox.entity ? '/' + searchBox.entity : ''));
+        //change the route for the new search
+        history.push('/search/' + encodeURIComponent(searchBox.term) + (searchBox.media ? '/' + searchBox.media : '') + (searchBox.entity ? '/' + searchBox.entity : ''));
     };
 
     render(){
@@ -105,9 +109,9 @@ class SearchBox extends React.Component {
                     <ControlLabel>Media</ControlLabel>
                     <FormControl componentClass="select" value={searchBox.media} onChange={ e => dispatch(searchBoxChanged({media: e.target.value, entity: ''})) }>
                     {
-                        Object.keys(mediaEntities).map(ent => {
-                            return <option key={ ent } value={ ent }>{ displayNames[ent] }</option>
-                        })
+                        Object.keys(mediaEntities).map(ent => (
+                            <option key={ ent } value={ ent }>{ displayNames[ent] }</option>
+                        ))
                     }
                     </FormControl>
                 </FormGroup>
@@ -115,11 +119,10 @@ class SearchBox extends React.Component {
                 <FormGroup controlId="formControlsSelect">
                     <ControlLabel>Entity</ControlLabel>
                     <FormControl componentClass="select" value={searchBox.entity} onChange={ e => dispatch(searchBoxChanged({entity: e.target.value})) }>
-                        <option key={ '' } value={ '' }>{ displayNames[''] }</option>
                         {
-                            mediaEntities[searchBox.media].map(ent => {
-                                return <option key={ ent } value={ ent }>{ displayNames[ent] }</option>
-                            })
+                            mediaEntities[searchBox.media].map(ent => (
+                                <option key={ ent } value={ ent }>{ displayNames[ent] }</option>
+                            ))
                         }
                     </FormControl>
                 </FormGroup>

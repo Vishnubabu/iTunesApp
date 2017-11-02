@@ -4,6 +4,6 @@ module.exports = {
         cache_ttl: 24 * 60 * 60 // 1 day
     },
     server: {
-		host: 3001
-	}
+        host: 3001
+    }
 }
