@@ -56,6 +56,7 @@ class SearchBox extends React.Component {
         const {dispatch} = this.props;
 
         //validating
+        term = decodeURIComponent(term);
         media = media in mediaEntities ? media : '';
         entity = mediaEntities[media].indexOf(entity) >= 0 ? entity : '';
 
@@ -103,11 +104,13 @@ class SearchBox extends React.Component {
 
         return (
             <form onSubmit={ this.submit.bind(this) }>
-                <input type="text" placeholder="Enter the search term..." value={searchBox.term} className="form-control form-group" onChange={ e => dispatch(searchBoxChanged({term: e.target.value})) }/>
+                <input type="text" placeholder="Enter the search term..." value={searchBox.term} className="form-control form-group"
+                    onChange={ e => dispatch(searchBoxChanged({term: e.target.value})) }/>
 
                 <FormGroup controlId="formControlsSelect">
                     <ControlLabel>Media</ControlLabel>
-                    <FormControl componentClass="select" value={searchBox.media} onChange={ e => dispatch(searchBoxChanged({media: e.target.value, entity: ''})) }>
+                    <FormControl componentClass="select" value={searchBox.media}
+                        onChange={ e => dispatch(searchBoxChanged({media: e.target.value, entity: ''})) }>
                     {
                         Object.keys(mediaEntities).map(ent => (
                             <option key={ ent } value={ ent }>{ displayNames[ent] }</option>
@@ -118,12 +121,13 @@ class SearchBox extends React.Component {
 
                 <FormGroup controlId="formControlsSelect">
                     <ControlLabel>Entity</ControlLabel>
-                    <FormControl componentClass="select" value={searchBox.entity} onChange={ e => dispatch(searchBoxChanged({entity: e.target.value})) }>
-                        {
-                            mediaEntities[searchBox.media].map(ent => (
-                                <option key={ ent } value={ ent }>{ displayNames[ent] }</option>
-                            ))
-                        }
+                    <FormControl componentClass="select" value={searchBox.entity}
+                        onChange={ e => dispatch(searchBoxChanged({entity: e.target.value})) }>
+                    {
+                        mediaEntities[searchBox.media].map(ent => (
+                            <option key={ ent } value={ ent }>{ displayNames[ent] }</option>
+                        ))
+                    }
                     </FormControl>
                 </FormGroup>
 

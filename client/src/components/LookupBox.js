@@ -14,7 +14,7 @@ const stores = {
 
 const mapStateToProps = state => ({
     lookupBox: {...{ id: '', store: 'id' }, ...state.lookupBox }
-})
+});
 
 class LookupBox extends React.Component {
 
@@ -22,7 +22,8 @@ class LookupBox extends React.Component {
         const {dispatch} = this.props;
 
         //validating
-        store = stores[store] ? store : 'id';
+        id = decodeURIComponent(id);
+        store = store in stores ? store : 'id';
 
         dispatch(lookupBoxChanged({store, id}));
 
