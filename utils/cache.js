@@ -19,7 +19,7 @@ function set(key, data, ttl) {
 
 async function get(key) {
     key = encode(key);
-    data = await asyncGet(key);
+    return await asyncGet(key);
 }
 
 module.exports = {
