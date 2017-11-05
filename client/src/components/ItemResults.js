@@ -14,13 +14,13 @@ const headers = [
 ];
 
 const ItemResults = ({ itemResults, errorMsg, loading }) => {
-    if(loading){
+    if (loading) {
         return (
             <div className="loader"></div>
         );
     }
 
-    if(errorMsg){
+    if (errorMsg) {
         return (
             <div className="alert alert-danger fade in">
                 <strong>Error!</strong> A problem has been occurred while fetching data
@@ -29,7 +29,7 @@ const ItemResults = ({ itemResults, errorMsg, loading }) => {
         );
     }
 
-    if(itemResults.length <= 0){
+    if (itemResults.length <= 0) {
         return '';
     }
 

@@ -50,7 +50,7 @@ const mapStateToProps = ({searchBox: {term = '', media = '', entity = ''} = {}})
 
 class SearchBox extends React.Component {
 
-    doSearch({term = '', media = '', entity = ''}){
+    doSearch({term = '', media = '', entity = ''}) {
         const {dispatch} = this.props;
 
         //validating
@@ -60,7 +60,7 @@ class SearchBox extends React.Component {
 
         dispatch(searchBoxChanged({term, media, entity}));
 
-        if(!term.trim()){
+        if (!term.trim()) {
             dispatch(removeItemResults());
             return;
         }
@@ -73,13 +73,13 @@ class SearchBox extends React.Component {
         dispatch(doSearch(params));
     }
 
-    componentWillReceiveProps(props){
-        if(this.props.match.url !== props.match.url){  //listen to url change
+    componentWillReceiveProps(props) {
+        if (this.props.match.url !== props.match.url) {  //listen to url change
             this.doSearch(props.match.params);
         }
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.doSearch(this.props.match.params);
     }
 
@@ -87,17 +87,21 @@ class SearchBox extends React.Component {
         evt.stopPropagation();
         evt.preventDefault();
 
-        const {term, media, entity, history} = this.props;
+        const {term, media, entity, history, match} = this.props;
 
-        if(!term.trim()){
+        if (!term.trim()) {
             return;
         }
 
-        //change the route for the new search
-        history.push('/search/' + encodeURIComponent(term) + (media ? '/' + media : '') + (entity ? '/' + entity : ''));
+        const newRoute = '/search/' + encodeURIComponent(term) + (media ? '/' + media : '') + (entity ? '/' + entity : '');
+        if (match.url !== newRoute) { // new search so change the route
+            return history.push(newRoute);
+        }
+
+        this.doSearch({term, media, entity}); // search again
     };
 
-    render(){
+    render() {
         const {dispatch, term, media, entity} = this.props;
 
         return (
