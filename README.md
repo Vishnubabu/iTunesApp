@@ -14,6 +14,11 @@ open localhost:3000
 
 Requires nodejs 8.8.1 (latest)  -> using (async / await), promisify
 
+**OR**
+
+clone the repository and from root folder run
+> - docker-compose up
+
 Backend
 -------------
 Supports 2 apis

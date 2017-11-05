@@ -5,7 +5,3 @@ services:
         build:
             context: .
             dockerfile: app.docker
-        ports:
-         - "3000:3001"
-        volumes:
-         - /var/www:/itunesapp
