@@ -11,15 +11,22 @@ function encode(key) {
 function set(key, data, ttl) {
     try{
         key = encode(key);
-        myCache.set(key, data, ttl);
+        myCache.set(key, data, ttl, err => {
+            //TODO log err
+        });
     }catch(e) {
         //TODO log e
     }
 }
 
 async function get(key) {
-    key = encode(key);
-    return await asyncGet(key);
+    try{
+        key = encode(key);
+        return await asyncGet(key);
+    }catch(e) {
+        //TODO log e
+    }
+    return null;
 }
 
 module.exports = {
