@@ -2,11 +2,7 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-const mapStateToProps = state => ({
-    itemResults: state.itemResults || [],
-    errorMsg: state.errorMsg,
-    loading: state.loading
-});
+const mapStateToProps = ({itemResults = [], errorMsg, loading}) => ({itemResults, errorMsg, loading});
 
 const headers = [
     '',
@@ -46,18 +42,18 @@ const ItemResults = ({ itemResults, errorMsg, loading }) => {
         </thead>
 
         <tbody>
-            {
-                itemResults.map((res, i) => (
-                    <tr key={i} >
-                        <td key={1}><img alt="" src={ res.artworkUrl60 }/></td>
-                        <td key={2}>{ res.kind }</td>
-                        <td key={3}><a href={ res.artistViewUrl } target="_blank">{ res.artistName }</a></td>
-                        <td key={4}><a href={ res.collectionViewUrl } target="_blank">{ res.collectionName }</a></td>
-                        <td key={5}><a href={ res.trackViewUrl } target="_blank">{ res.trackName }</a></td>
-                        <td key={6}><a href={ res.previewUrl } target="_blank">preview</a></td>
-                    </tr>
-                ))
-            }
+        {
+            itemResults.map((res, i) => (
+                <tr key={i} >
+                    <td key={1}><img alt="" src={ res.artworkUrl60 }/></td>
+                    <td key={2}>{ res.kind }</td>
+                    <td key={3}><a href={ res.artistViewUrl } target="_blank">{ res.artistName }</a></td>
+                    <td key={4}><a href={ res.collectionViewUrl } target="_blank">{ res.collectionName }</a></td>
+                    <td key={5}><a href={ res.trackViewUrl } target="_blank">{ res.trackName }</a></td>
+                    <td key={6}><a href={ res.previewUrl } target="_blank">preview</a></td>
+                </tr>
+            ))
+        }
         </tbody>
         </Table>
     );

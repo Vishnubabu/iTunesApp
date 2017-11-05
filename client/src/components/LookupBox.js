@@ -12,9 +12,7 @@ const stores = {
     amgVideoId: 'AMG video'
 };
 
-const mapStateToProps = state => ({
-    lookupBox: {...{ id: '', store: 'id' }, ...state.lookupBox }
-});
+const mapStateToProps = ({lookupBox: {id = '', store = 'id'} = {}}) => ({id, store});
 
 class LookupBox extends React.Component {
 
@@ -50,31 +48,31 @@ class LookupBox extends React.Component {
         evt.stopPropagation();
         evt.preventDefault();
 
-        const {lookupBox, history} = this.props;
+        const {id, store, history} = this.props;
 
-        if(!lookupBox.id.trim()){
+        if(!id.trim()){
             return;
         }
 
         //change the route for the new lookup
-        history.push('/lookup/' + lookupBox.store + '/' + encodeURIComponent(lookupBox.id));
+        history.push('/lookup/' + store + '/' + encodeURIComponent(id));
     };
 
     render(){
-        const {dispatch, lookupBox} = this.props;
+        const {dispatch, id, store} = this.props;
 
         return (
             <form onSubmit={ this.submit.bind(this) }>
                 <FormGroup>
                 {
-                    Object.keys(stores).map(store => (
-                        <Radio key={ store } value={ store } name="radioGroup" checked={lookupBox.store === store} inline
-                            onChange={ e => dispatch(lookupBoxChanged({store: e.target.value})) }>{ stores[store] }</Radio>
+                    Object.keys(stores).map(s => (
+                        <Radio key={ s } value={ s } name="radioGroup" checked={ s === store } inline
+                            onChange={ e => dispatch(lookupBoxChanged({store: e.target.value})) }>{ stores[s] }</Radio>
                     ))
                 }
                 </FormGroup>
 
-                <input type="text" placeholder="Enter the Id (comma separated)..." value={lookupBox.id} className="form-control form-group"
+                <input type="text" placeholder="Enter the Id (comma separated)..." value={id} className="form-control form-group"
                     onChange={ e => dispatch(lookupBoxChanged({id: e.target.value})) }/>
 
                 <Button bsStyle="primary" type="submit">Lookup</Button>
