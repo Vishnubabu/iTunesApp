@@ -16,7 +16,7 @@ const mapStateToProps = ({lookupBox: {id = '', store = 'id'} = {}}) => ({id, sto
 
 class LookupBox extends React.Component {
 
-    doLookup({store, id = ''}) {
+    onUrlChanged({store, id = ''}) {
         const {dispatch} = this.props;
 
         //validating
@@ -24,10 +24,14 @@ class LookupBox extends React.Component {
         store = store in stores ? store : 'id';
 
         dispatch(lookupBoxChanged({store, id}));
+        this.doLookup({store, id});
+    }
+
+    doLookup({store, id = ''}) {
+        const {dispatch} = this.props;
 
         if (!id.trim()) {
-            dispatch(removeItemResults());
-            return;
+            return dispatch(removeItemResults());
         }
 
         const params = {[store]: id};
@@ -36,12 +40,12 @@ class LookupBox extends React.Component {
 
     componentWillReceiveProps(props) {
         if (this.props.match.url !== props.match.url) {  //listen to url change
-            this.doLookup(props.match.params);
+            this.onUrlChanged(props.match.params);
         }
     }
 
     componentWillMount() {
-        this.doLookup(this.props.match.params);
+        this.onUrlChanged(this.props.match.params);
     }
 
     submit(evt) {
@@ -49,10 +53,6 @@ class LookupBox extends React.Component {
         evt.preventDefault();
 
         const {id, store, history, match} = this.props;
-
-        if (!id.trim()) {
-            return;
-        }
 
         const newRoute = '/lookup/' + store + '/' + encodeURIComponent(id);
         if (match.url !== newRoute) { // new lookup so change the route

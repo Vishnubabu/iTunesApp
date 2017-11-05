@@ -15,7 +15,7 @@ export default ({ history }) => (
     <div>
         <Tabs activeKey={ getTabFromRoute(history.location.pathname) } id="maintabs" onSelect={ tab => history.push('/' + tab) }>
             <Tab eventKey={'search'} title="Search">
-                <Route path="/search/:term?/:media?/:entity?" render={ ({match}) => (
+                <Route path="/search/:term([^/]*)?/:media?/:entity?" render={ ({match}) => (
                     <div className="well">
                         <SearchBox { ...{match, history} } />
                     </div>

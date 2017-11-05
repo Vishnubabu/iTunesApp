@@ -50,7 +50,7 @@ const mapStateToProps = ({searchBox: {term = '', media = '', entity = ''} = {}})
 
 class SearchBox extends React.Component {
 
-    doSearch({term = '', media = '', entity = ''}) {
+    onUrlChanged({term = '', media = '', entity = ''}) {
         const {dispatch} = this.props;
 
         //validating
@@ -60,9 +60,14 @@ class SearchBox extends React.Component {
 
         dispatch(searchBoxChanged({term, media, entity}));
 
+        this.doSearch({term, media, entity});
+    }
+
+    doSearch({term = '', media = '', entity = ''}) {
+        const {dispatch} = this.props;
+
         if (!term.trim()) {
-            dispatch(removeItemResults());
-            return;
+            return dispatch(removeItemResults());
         }
 
         //remove empty media & entity sending to backend
@@ -75,12 +80,12 @@ class SearchBox extends React.Component {
 
     componentWillReceiveProps(props) {
         if (this.props.match.url !== props.match.url) {  //listen to url change
-            this.doSearch(props.match.params);
+            this.onUrlChanged(props.match.params);
         }
     }
 
     componentWillMount() {
-        this.doSearch(this.props.match.params);
+        this.onUrlChanged(this.props.match.params);
     }
 
     submit(evt) {
@@ -88,10 +93,6 @@ class SearchBox extends React.Component {
         evt.preventDefault();
 
         const {term, media, entity, history, match} = this.props;
-
-        if (!term.trim()) {
-            return;
-        }
 
         const newRoute = '/search/' + encodeURIComponent(term) + (media ? '/' + media : '') + (entity ? '/' + entity : '');
         if (match.url !== newRoute) { // new search so change the route
