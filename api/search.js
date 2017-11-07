@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const makeiTunesRequest = require('../utils/makeiTunesRequest');
-const config = require('../config');
 const { query: checkQuery, validationResult } = require('express-validator/check');
 const { matchedData, sanitizeQuery } = require('express-validator/filter');
 
@@ -33,7 +32,7 @@ router.get('/', validator, function (req, res, next) {
 
     const params = Object.assign({}, defaultParams, matchedData(req));
 
-    makeiTunesRequest(config.itunes.api_path + searchPath, params)
+    makeiTunesRequest(searchPath, params)
     .then(result => res.send(result))
     .catch(next);
 });

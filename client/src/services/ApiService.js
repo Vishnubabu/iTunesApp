@@ -10,6 +10,8 @@ const onResponse = res => {
     return Promise.reject('ERR: ' + res.status);
 };
 
-export const search = params => fetch(apiRoot + 'search?' + jquery.param(params)).then(onResponse);
+export const search = params => fetch(apiRoot + 'search?' + jquery.param({...params, '_': Date.now()}),
+    {cache: 'no-store'}).then(onResponse);
 
-export const lookup = params => fetch(apiRoot + 'lookup?' + jquery.param(params)).then(onResponse);
+export const lookup = params => fetch(apiRoot + 'lookup?' + jquery.param({...params, '_': Date.now()}),
+    {cache: 'no-store'}).then(onResponse);

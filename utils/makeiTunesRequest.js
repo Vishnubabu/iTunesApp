@@ -4,8 +4,8 @@ const config = require('../config');
 const {promisify} = require('util');
 const asyncGet = promisify(request.get);
 
-module.exports = async (url, params) => {
-    const input = {url: url, qs: params, json:true};
+module.exports = async (path, params) => {
+    const input = {url: config.itunes.api_path + path, qs: params, json: true};
 
     let response = await cache.get(input);
     if (response) {
